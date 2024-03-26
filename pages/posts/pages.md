@@ -3,7 +3,7 @@ title: unwilting 1.0 release and dev log
 date: 2024/3/26
 description: unwilting, a game jam game for LSDJAM23, is now available to play!
 tag: game launch
-author: You
+author: cm
 ---
 
 # "unwilting" is released!
