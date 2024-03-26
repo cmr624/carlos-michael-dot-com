@@ -4,7 +4,7 @@ export default function Document() {
   const meta = {
     title: "carlos-michael.com",
     description: "carlos michael's personal website",
-    image: "https://assets.vercel.com/image/upload/q_auto/front/vercel/dps.png",
+    image: "https://img.itch.zone/aW1nLzE1NTA2Mzk1LmdpZg==/original/y1nr6v.gif",
   };
 
   return (
