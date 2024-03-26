@@ -9,7 +9,7 @@ const nextConfig = {
   // any configs you need
   distDir: './out',
   output: "export",
-  basePath: "/carlos-michael-dot-com/"
+  basePath: "/carlos-michael-dot-com"
 };
 
 
