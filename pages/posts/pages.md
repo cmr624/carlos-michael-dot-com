@@ -1,238 +1,108 @@
 ---
-title: Next.js Pages
-date: 2021/3/18
-description: Learn more about Next.js pages.
-tag: web development
+title: unwilting 1.0 release and dev log
+date: 2024/3/26
+description: unwilting, a game jam game for LSDJAM23, is now available to play!
+tag: game launch
 author: You
 ---
 
-# Next.js Pages
+# "unwilting" is released!
 
-In Next.js, a **page** is a [React Component](https://react.dev/reference/react/Component) exported from a `.js`, `.jsx`, `.ts`, or `.tsx` file in the `pages` directory. Each page is associated with a route based on its file name.
+developed for the LSDJAM 2023, we have completed our 1.0 version of "unwilting" - a first person gardening adventure game!! 
 
-**Example**: If you create `pages/about.js` that exports a React component like below, it will be accessible at `/about`.
+![](https://img.itch.zone/aW1nLzE1NTA2Mzk1LmdpZg==/original/y1nr6v.gif)
 
-```
-function About() {
-  return <div>About</div>
-}
+please let us know what you think <3
 
-export default About
-```
+### development
 
-### Pages with Dynamic Routes
+#### inspiration 
+![image.png](https://img.itch.zone/aW1nLzE1NTA2NjExLnBuZw==/original/Q3jblT.png)
 
-Next.js supports pages with dynamic routes. For example, if you create a file called `pages/posts/[id].js`, then it will be accessible at `posts/1`, `posts/2`, etc.
+i was inspired by the experience of wandering through unlocked community gardens during the COVID-19 pandemic in new york city. 
 
-> To learn more about dynamic routing, check the [Dynamic Routing documentation](/docs/routing/dynamic-routes.md).
+for some reason on walks, i kept finding unlocked, unattended community gardens. typically, a volunteer is required to tend to the garden at all times, and if there is no one present, the garden is supposed to be locked - but intentionally or not, some gardens were left available.
 
-## Pre-rendering
+the simple scene of an empty community space with no one around was super resonant during that time, and i wanted to recreate that feeling of being alone in a strange place that is missing life.
 
-By default, Next.js **pre-renders** every page. This means that Next.js generates HTML for each page in advance, instead of having it all done by client-side JavaScript. Pre-rendering can result in better performance and SEO.
+#### concepting
 
-Each generated HTML is associated with minimal JavaScript code necessary for that page. When a page is loaded by the browser, its JavaScript code runs and makes the page fully interactive. (This process is called _hydration_.)
+in november 23, concepting started in this doc: https://docs.google.com/presentation/d/1d4TfO9vXOVNL-M8J3HrtVAjoN4vX7EN6pb1HJeaptXI/edit#slide=id.g29c59f8345d_1_74
 
-### Two forms of Pre-rendering
+and took many iterations to explore what the game would eventually become!
 
-Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. The difference is in **when** it generates the HTML for a page.
+![image.png](https://img.itch.zone/aW1nLzE1NTA2NjU1LnBuZw==/original/mCtnHZ.png)
 
-- [**Static Generation (Recommended)**](#static-generation-recommended): The HTML is generated at **build time** and will be reused on each request.
-- [**Server-side Rendering**](#server-side-rendering): The HTML is generated on **each request**.
+paul's art references were also invaluable during the concepting stage and provided mad inspiration vibes
 
-Importantly, Next.js lets you **choose** which pre-rendering form you'd like to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
+![image.png](https://img.itch.zone/aW1nLzE1NTA2NzE4LnBuZw==/original/dSgQyc.png)
 
-We **recommend** using **Static Generation** over Server-side Rendering for performance reasons. Statically generated pages can be cached by CDN with no extra configuration to boost performance. However, in some cases, Server-side Rendering might be the only option.
+#### flower cubes
 
-You can also use **Client-side Rendering** along with Static Generation or Server-side Rendering. That means some parts of a page can be rendered entirely by client side JavaScript. To learn more, take a look at the [Data Fetching](/docs/basic-features/data-fetching/client-side.md) documentation.
+when designing, we were coming up on a problem - how can we create a lush 3d garden environment in scope?
 
-## Static Generation (Recommended)
+3d modeling flowers, trees, and other custom geometry became quickly out of scope and due to our team's size and capacity and we wanted to include many 2d artists willing to work on this, so we needed another solution.
 
-If a page uses **Static Generation**, the page HTML is generated at **build time**. That means in production, the page HTML is generated when you run `next build` . This HTML will then be reused on each request. It can be cached by a CDN.
+![image.png](https://img.itch.zone/aW1nLzE1NTA2NjI3LnBuZw==/original/MR%2BKrY.png)
 
-In Next.js, you can statically generate pages **with or without data**. Let's take a look at each case.
+paul pitched mapping 2d illustrations of flowers onto primitive geometry - like cubes, pyramids, spheres. it made for an instantly readable watering mechanic, and helped define the art style with really clear core objects. and with that, flower cube was born!
 
-### Static Generation without data
+#### build and rebuild! 
 
-By default, Next.js pre-renders pages using Static Generation without fetching data. Here's an example:
+in november of 2023, i prototyped some initial mechanics with some of william's music, focusing on exploring possible gameplay with a fluid simulation asset i purchased via the unity asset store. 
 
-```
-function About() {
-  return <div>About</div>
-}
+after playing with the mechanic and setting up some puzzles, while pouring water was fun and interesting, the mechanics were ultimately too complex in a first person game to be any more fun than what a particle effect could do, so fluid sim was scrapped.
 
-export default About
-```
+![image.png](https://img.itch.zone/aW1nLzE1NTA2NzMzLnBuZw==/original/E5L6EB.png)
 
-Note that this page does not need to fetch any external data to be pre-rendered. In cases like this, Next.js generates a single HTML file per page during build time.
+then, in january 2024, freshwater participated in the global game jam, which was our first 3d game in godot! the switch to godot enabled much higher collaboration speed, and we were able to to renable our ci/cd pipeline from github -> itch.io via butler, which unity broke by changing their licensing policies over summer of 2023.
 
-### Static Generation with data
+after the jam and learning the godot workflow, i forked an "interactive sim" template still in development, to develop the "prototype" to submit for the LSDJAM which "officially" ended end of febuary 2024. [link to repository!](https://github.com/flower-water-games/garden-songs-godot4-prototype-cogito)
 
-Some pages require fetching external data for pre-rendering. There are two scenarios, and one or both might apply. In each case, you can use a special function Next.js provides:
+![image.png](https://img.itch.zone/aW1nLzE1NTA2NzM5LnBuZw==/original/SCVD2h.png)
 
-1. Your page **content** depends on external data: Use `getStaticProps`.
-2. Your page **paths** depend on external data: Use `getStaticPaths` (usually in addition to `getStaticProps`).
+after developing two prototypes, i removed the dependency to the COGITO interactive sim library, and rebuilt the project to create the current version, v1.0. 
 
-#### Scenario 1: Your page **content** depends on external data
+this simplified the code base to only include a first person controller, watering mechanics, and an environment to explore, without additional puzzles or interactions.
 
-**Example**: Your blog page might need to fetch the list of blog posts from a CMS (content management system).
+after trying to design hand made levels, i generated a large terrain and walked around with the music, placing key points of interests and tried to create world scenes that included our art and framed the stem cubes properly. 
 
-```
-// TODO: Need to fetch `posts` (by calling some API endpoint)
-//       before this page can be pre-rendered.
-function Blog({ posts }) {
-  return (
-    <ul>
-      {posts.map((post) => (
-        <li>{post.title}</li>
-      ))}
-    </ul>
-  )
-}
+honestly, the world is probably too big and empty, but this iteration felt like the most exciting and interesting direction than the smaller, more authored approach.
 
-export default Blog
-```
+ultimately, being willing to rework this game led to huge leaps in iterations through each phase - and the game and code base is super improved and refined. 
 
-To fetch this data on pre-render, Next.js allows you to `export` an `async` function called `getStaticProps` from the same file. This function gets called at build time and lets you pass fetched data to the page's `props` on pre-render.
+and of course, thanks to the whole team for everyone's beautiful contributions!! 
 
-```
-function Blog({ posts }) {
-  // Render posts...
-}
+- cm
 
-// This function gets called at build time
-export async function getStaticProps() {
-  // Call an external API endpoint to get posts
-  const res = await fetch('https://.../posts')
-  const posts = await res.json()
+ps: if you made it this far, thanks for reading, and here's a cheat code! press 3, to activate the "end game" ;) (i accidentally left this debug tool in lol)
 
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
-  return {
-    props: {
-      posts
-    }
-  }
-}
+## unwilting
 
-export default Blog
-```
+[play on itch.io now! ](https://carlos-michael.itch.io/unwilting)
 
-To learn more about how `getStaticProps` works, check out the [Data Fetching documentation](/docs/basic-features/data-fetching/get-static-props.md).
+### description
+explore the unwilting gardens in this relaxing first person gardening adventure game!
 
-#### Scenario 2: Your page paths depend on external data
+### controls
+[wasd] to move
 
-Next.js allows you to create pages with **dynamic routes**. For example, you can create a file called `pages/posts/[id].js` to show a single blog post based on `id`. This will allow you to show a blog post with `id: 1` when you access `posts/1`.
+[mouse] to look around
 
-> To learn more about dynamic routing, check the [Dynamic Routing documentation](/docs/routing/dynamic-routes.md).
+[click] to water
 
-However, which `id` you want to pre-render at build time might depend on external data.
+[space bar] to jump
 
-**Example**: suppose that you've only added one blog post (with `id: 1`) to the database. In this case, you'd only want to pre-render `posts/1` at build time.
+### credits
 
-Later, you might add the second post with `id: 2`. Then you'd want to pre-render `posts/2` as well.
+- game development by cm
+- art direction, environment, shader, visual style by pauljamesbarbato
+- flowers by jenna, jesse, paul, and helen
+- dome art and animation by chris
+- birds by helen
+- music and sound design by william lambert
+- music and logo design by houis
 
-So your page **paths** that are pre-rendered depend on external data**.** To handle this, Next.js lets you `export` an `async` function called `getStaticPaths` from a dynamic page (`pages/posts/[id].js` in this case). This function gets called at build time and lets you specify which paths you want to pre-render.
++ thanks to many freshwater games friends
 
-```
-// This function gets called at build time
-export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  const res = await fetch('https://.../posts')
-  const posts = await res.json()
-
-  // Get the paths we want to pre-render based on posts
-  const paths = posts.map((post) => ({
-    params: { id: post.id }
-  }))
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false }
-}
-```
-
-Also in `pages/posts/[id].js`, you need to export `getStaticProps` so that you can fetch the data about the post with this `id` and use it to pre-render the page:
-
-```
-function Post({ post }) {
-  // Render post...
-}
-
-export async function getStaticPaths() {
-  // ...
-}
-
-// This also gets called at build time
-export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
-  const res = await fetch(`https://.../posts/${params.id}`)
-  const post = await res.json()
-
-  // Pass post data to the page via props
-  return { props: { post } }
-}
-
-export default Post
-```
-
-To learn more about how `getStaticPaths` works, check out the [Data Fetching documentation](/docs/basic-features/data-fetching/get-static-paths.md).
-
-### When should I use Static Generation?
-
-We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request.
-
-You can use Static Generation for many types of pages, including:
-
-- Marketing pages
-- Blog posts
-- E-commerce product listings
-- Help and documentation
-
-You should ask yourself: "Can I pre-render this page **ahead** of a user's request?" If the answer is yes, then you should choose Static Generation.
-
-On the other hand, Static Generation is **not** a good idea if you cannot pre-render a page ahead of a user's request. Maybe your page shows frequently updated data, and the page content changes on every request.
-
-In cases like this, you can do one of the following:
-
-- Use Static Generation with **Client-side Rendering:** You can skip pre-rendering some parts of a page and then use client-side JavaScript to populate them. To learn more about this approach, check out the [Data Fetching documentation](/docs/basic-features/data-fetching/client-side.md).
-- Use **Server-Side Rendering:** Next.js pre-renders a page on each request. It will be slower because the page cannot be cached by a CDN, but the pre-rendered page will always be up-to-date. We'll talk about this approach below.
-
-## Server-side Rendering
-
-> Also referred to as "SSR" or "Dynamic Rendering".
-
-If a page uses **Server-side Rendering**, the page HTML is generated on **each request**.
-
-To use Server-side Rendering for a page, you need to `export` an `async` function called `getServerSideProps`. This function will be called by the server on every request.
-
-For example, suppose that your page needs to pre-render frequently updated data (fetched from an external API). You can write `getServerSideProps` which fetches this data and passes it to `Page` like below:
-
-```
-function Page({ data }) {
-  // Render data...
-}
-
-// This gets called on every request
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await fetch(`https://.../data`)
-  const data = await res.json()
-
-  // Pass data to the page via props
-  return { props: { data } }
-}
-
-export default Page
-```
-
-As you can see, `getServerSideProps` is similar to `getStaticProps`, but the difference is that `getServerSideProps` is run on every request instead of on build time.
-
-To learn more about how `getServerSideProps` works, check out our [Data Fetching documentation](/docs/basic-features/data-fetching/get-server-side-props.md)
-
-## Summary
-
-We've discussed two forms of pre-rendering for Next.js.
-
-- **Static Generation (Recommended):** The HTML is generated at **build time** and will be reused on each request. To make a page use Static Generation, either export the page component, or export `getStaticProps` (and `getStaticPaths` if necessary). It's great for pages that can be pre-rendered ahead of a user's request. You can also use it with Client-side Rendering to bring in additional data.
-- **Server-side Rendering:** The HTML is generated on **each request**. To make a page use Server-side Rendering, export `getServerSideProps`. Because Server-side Rendering results in slower performance than Static Generation, use this only if absolutely necessary.
+<3
